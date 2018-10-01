@@ -72,7 +72,9 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-
+    float lastframeticks = 0.0f;
+    float angle = 0.0f;
+    
     SDL_Event event;
     bool done = false;
     while (!done) {
@@ -84,7 +86,8 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT); //start every frame by clearing the screen
     
         float ticks = (float)SDL_GetTicks()/1000;
-        
+        float elapsed = ticks - lastframeticks;
+        lastframeticks = ticks;
         
          modelMatrix = glm::mat4(1.0f);
         modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.4f, 0.0f));
@@ -143,7 +146,7 @@ int main(int argc, char *argv[])
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
-        float angle = 6.28f*ticks;
+        angle += 3.14f*elapsed;
         modelMatrix = glm::mat4(1.0f);
         modelMatrix = glm::translate(modelMatrix, glm::vec3(0.2f, 0.6f, 0.0f));
         modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 1.0f));
@@ -176,5 +179,8 @@ int main(int argc, char *argv[])
     SDL_Quit();
     return 0;
 }
+
+
+
 
 
